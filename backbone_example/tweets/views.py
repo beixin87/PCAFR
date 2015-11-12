@@ -7,7 +7,6 @@ from .models import Tweet
 class IndexView(TemplateView):
     template_name = 'index.html'
 
-
 class DetailView(TemplateView):
     template_name = 'index.html'
 
