@@ -1,5 +1,6 @@
 import splunklib.client as client
 from splunklib.binding import HTTPError
+import json
 
 
 SPLUNK_OWNER = 'nobody'
@@ -26,6 +27,15 @@ if __name__ == "__main__":
             start = oneshot_search_string.find("results")
             search_results = oneshot_search_string[start : -1]
             actual_search_data = search_results
-            print actual_search_data
+            temp = actual_search_data.split('},{')
+            predict_budge = []
+            for item in temp:
+                temp_item = item.split('","')
+                predict_budge.append(temp_item[4].split('":"')[1])
+            print predict_budge
+            print len(predict_budge)
+            # print count
+            # test = ast.literal_eval(actual_search_data)
+            # print actual_search_data.count("predicted(event budge)")
     except:
         raise
