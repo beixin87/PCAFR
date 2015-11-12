@@ -1,0 +1,54 @@
+a:hover, .img-container:hover .img-container-text h4 a, h4 a:hover, .client-name-3, .color-1-text, .accordion-heading a.accordion-toggle.accordion-active, .btn-color-1-border-text:hover, .btn-color-1-border-text:hover:focus, .pricing-table-1-shortcode .pricing-table-plan-price, .pricing-table-2-shortcode .pricing-table-plan-price, .services-box-6 h1, h1.item-price, .img-container-image-2:hover a i, .img-container-image-2 a i, .img-container-image-shop:hover .hot, .img-container-shop:hover .img-container-text h4 a {
+  color:#263357;
+}
+
+.img-container:hover .border-top, .blog-container:hover .border-top, .slider4 .flex-control-paging li a:hover, .color-1-background, .client-says-3, .img-container-image, .img-container-shop:hover .border-top, .shop-item-add-to-cart:hover, .btn-color-1:hover, .btn-color-1:focus, .pricing-table-2-shortcode:hover .pricing-table-header, .pricing-table-2-shortcode:hover .pricing-table-footer, .pricing-table-3-shortcode .pricing-table-header, .pricing-table-3-shortcode .pricing-table-footer, .shop-item-container:hover .border-top, .overlay, .shop-cart-header-logo i{
+  background:#263357;
+}
+
+blockquote {
+  border-left: 5px solid #263357 ;
+}
+
+.color-1-border-left-10 {
+  border-left: 10px solid #263357 ;
+}
+
+.bar.color-1-border, .color-1-border, .client-says-3, .btn-color-1-border-text:hover, .btn-color-1-border-text:hover:focus, .pricing-table-2-shortcode:hover .pricing-table-header, .pricing-table-2-shortcode:hover .pricing-table-footer, .pricing-table-3-shortcode .pricing-table-header, .pricing-table-3-shortcode .pricing-table-footer {
+  border: 1px #263357 solid ;
+}
+
+.client-says-3:after {
+	border-color: #263357 transparent transparent #263357;
+}
+
+
+/* Other color */
+
+.slider4 .flex-control-paging li a.flex-active, .color-2-background, .our-team-shortcode .img-container:hover .border-top, .btn-color-2:hover, .btn-color-2:focus, .pricing-table-3-shortcode:hover .pricing-table-header, .pricing-table-3-shortcode:hover .pricing-table-footer, .services-box-5{
+  background:#5979CD;
+}
+
+.color-2-text, .btn-color-2-border-text:hover, .btn-color-2-border-text:hover:focus, .pricing-table-1-shortcode:hover .pricing-table-plan-price, .pricing-table-1-shortcode:hover .pricing-table-footer h5, .our-team-shortcode .img-container-text h4 a:hover, .our-team-shortcode .img-container:hover .img-container-text h4 a {
+  color:#5979CD; 
+}
+
+.bar.color-2-border, .color-2-border, .btn-color-2-border-text:hover, .btn-color-2-border-text:hover:focus, .pricing-table-3-shortcode:hover .pricing-table-header, .pricing-table-3-shortcode:hover .pricing-table-footer, .services-box-5 {
+  border: 1px #5979CD solid;
+}
+
+.color-2-border-left-10 {
+  border-left: 10px solid #5979CD;
+}
+
+.pricing-table-1-shortcode:hover .border-bottom {
+  width: 95%;
+  border-bottom: 1px #5979CD solid;
+  border-left: 1px #5979CD solid;
+  border-right: 1px #5979CD solid;
+  background: #5979CD;
+  height: 4px;
+  margin: 0 auto;
+}
+
+
