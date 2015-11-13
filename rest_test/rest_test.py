@@ -1,6 +1,8 @@
 import splunklib.client as client
 from splunklib.binding import HTTPError
 import json
+import requests
+import time
 
 
 SPLUNK_OWNER = 'nobody'
@@ -31,9 +33,25 @@ if __name__ == "__main__":
             predict_budge = []
             for item in temp:
                 temp_item = item.split('","')
-                predict_budge.append(temp_item[4].split('":"')[1])
-            print predict_budge
-            print len(predict_budge)
+                predict_budge.append(int(float(temp_item[4].split('":"')[1])))
+            # print predict_budge
+            # print len(predict_budge)
+
+            data = ""
+            seq = 1
+
+            for predict in predict_budge:
+                data = '{"seq": "' + str(seq) + '", "budget": "' + str(predict) + '"}'
+                headers = {'Content-Type': 'application/json'}
+                response = requests.post('http://localhost:8000/api/v1/predict/', data=data, headers=headers)
+                seq = seq + 1
+
+            # data = data[:-1]
+            # print data
+            # data_json = json.dumps(data)
+            # print data_json
+
+            # curl --dump-header - -H "Content-Type: application/json" -X POST --data '{"seq": "0", "budget": "13"}' http://localhost:8000/api/v1/predict/
             # print count
             # test = ast.literal_eval(actual_search_data)
             # print actual_search_data.count("predicted(event budge)")
