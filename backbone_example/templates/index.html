@@ -37,7 +37,7 @@
 
     <!-- Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Asap:400,700,400italic,700italic&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-
+    <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
     <script src="{{ STATIC_URL }}js/backbone-min.js"></script>
@@ -48,6 +48,7 @@
 
     <script>
     TWEET_API = "{% url api_dispatch_list api_name="v1" resource_name="tweet" %}";
+    PREDICT_API = "{% url api_dispatch_list api_name="v1" resource_name="predict" %}";
     {% if data %}
     app = {loaded: true};
     {% endif %}
@@ -58,62 +59,20 @@
     {% straight_include "tweetTemplate.mustache" %}
     </script>
 
+    <script type="text/html" id="predictTemplate">
+    {% straight_include "predictTemplate.mustache" %}
+    </script>
+
     <script type="text/html" id="listApp">
     {% straight_include "listApp.mustache" %}
     </script>
 
+    <script type="text/html" id="predictlistApp">
+    {% straight_include "predictlistApp.mustache" %}
+    </script>
+
     <script type="text/html" id="detailApp">
     {% straight_include "detailApp.mustache" %}
-    </script>
-    <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    <script>
-      console.log("test2222")
-      window.onload = function () {
-      console.log("wewewew")
-      var chart = new CanvasJS.Chart("chartContainer", {
-        theme: "theme1",//theme1
-        title:{
-          text: "XinViteer Event Number Analytics"              
-        },
-        animationEnabled: false,   // change to true
-        data: [              
-          {
-            // Change type to "bar", "area", "spline", "pie",etc.
-            type: "column",
-            dataPoints: [
-            { label: "December",  y: 10  },
-            { label: "November", y: 15  },
-            { label: "October", y: 25  },
-            { label: "September",  y: 30  },
-            { label: "August",  y: 28  }
-            ]
-            }
-          ]
-          });
-        var chart2 = new CanvasJS.Chart("chartContainerbudget", {
-        theme: "theme1",//theme1
-        title:{
-          text: "XinViteer Event budget Analytics"              
-        },
-        animationEnabled: false,   // change to true
-        data: [              
-          {
-            // Change type to "bar", "area", "spline", "pie",etc.
-            type: "line",
-            dataPoints: [
-            { label: "10",  y: 150  },
-            { label: "20", y: 100  },
-            { label: "30", y: 250  },
-            { label: "40",  y: 300  },
-            { label: "50",  y: 280 }
-            ]
-            }
-          ]
-          });
-          chart.render();
-          chart2.render();
-          console.log("test")
-        }
     </script>
   </head>
 
@@ -165,7 +124,8 @@
     </div>
       <div class="row">
         <div class="span12">
-            <h2>Event Analyics</h2>
+            <div id="predictapp">
+            </div>
             <div id="chartContainer" style="height: 300px; width: 100%;"></div>
             <div id="chartContainerbudget" style="height: 300px; width: 100%;"></div>
         </div>         
@@ -178,6 +138,8 @@
               {% mustache "detailApp" data %}
               {% endif %}
               </div>
+
+
         </div>         
       </div>
     <div class="row"><div class="span12"><h2>Proudly Sponsored by Splunk Service Canada</h2></div></div>

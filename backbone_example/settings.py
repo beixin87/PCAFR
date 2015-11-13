@@ -6,6 +6,8 @@ PROJECT_ROOT = os.path.dirname(__file__)
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+API_LIMIT_PER_PAGE = 5000
+
 ADMINS = (
     # ('Your Name', 'your_email@domain.com'),
 )
@@ -86,4 +88,5 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'tweets',
+    'predicts'
 )
