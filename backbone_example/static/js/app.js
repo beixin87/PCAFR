@@ -83,7 +83,7 @@
                 return;
             }
 
-            model = new Tweet({
+            model = new Predict({
                 resource_uri: id
             });
 
@@ -294,8 +294,9 @@
         list: function(){}
     });
 
-    $(function(){
-        window.onload = function () {
+    window.onload = function () {
+            var dps = []; // dataPoints
+            var predicts = new Predicts();
             var chart = new CanvasJS.Chart("chartContainer", {
             theme: "theme1",//theme1
             title:{
@@ -316,30 +317,52 @@
                 }
             ]
             });
+
+
             var chart2 = new CanvasJS.Chart("chartContainerbudget", {
             theme: "theme1",//theme1
             title:{
             text: "XinViteer Event budget Analytics"              
             },
             animationEnabled: false,   // change to true
-            data: [              
-            {
-                // Change type to "bar", "area", "spline", "pie",etc.
+            axisX: {
+                    title: "Event number",
+            },
+            axisY: {
+                    title: "Event budget",
+            },
+            data: [{
                 type: "line",
-                dataPoints: [
-                { label: "10",  y: 150  },
-                { label: "20", y: 100  },
-                { label: "30", y: 250  },
-                { label: "40",  y: 300  },
-                { label: "50",  y: 280 }
-                ]
-                }   
-                ]
+                dataPoints: dps
+            }]
             });
-            chart.render();
-            chart2.render();
-        }
 
+            var updateChart2 = function () {
+                predicts.fetch({
+                    data: { limit : 5000 },
+                    success: function(predicts, rawresponse){
+                        for (predict in rawresponse['objects']){
+                            console.log("success")
+                            budget = rawresponse['objects'][predict]['budget'];
+                            seq = rawresponse['objects'][predict]['seq']
+                            dps.push({
+                                    x: seq,
+                                    y: budget
+                            })
+                            if(dps.length > 3100){
+                                chart2.render();
+                            }
+                        }
+                    }
+                });    
+                chart2.render();
+            };
+
+            chart.render();
+            updateChart2();
+    }
+
+    $(function(){
         window.app = window.app || {};
         app.router = new Router();
         app.tweets = new Tweets();
