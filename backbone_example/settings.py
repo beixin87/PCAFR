@@ -88,5 +88,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
 
     'tweets',
-    'predicts'
+    'predicts',
+    'faces',
 )

@@ -49,6 +49,7 @@
     <script>
     TWEET_API = "{% url api_dispatch_list api_name="v1" resource_name="tweet" %}";
     PREDICT_API = "{% url api_dispatch_list api_name="v1" resource_name="predict" %}";
+    FACE_API = "{% url api_dispatch_list api_name="v1" resource_name="face" %}";
     {% if data %}
     app = {loaded: true};
     {% endif %}
@@ -63,12 +64,20 @@
     {% straight_include "predictTemplate.mustache" %}
     </script>
 
+    <script type="text/html" id="faceTemplate">
+    {% straight_include "faceTemplate.mustache" %}
+    </script>
+
     <script type="text/html" id="listApp">
     {% straight_include "listApp.mustache" %}
     </script>
 
     <script type="text/html" id="predictlistApp">
     {% straight_include "predictlistApp.mustache" %}
+    </script>
+
+    <script type="text/html" id="facelistApp">
+    {% straight_include "facelistApp.mustache" %}
     </script>
 
     <script type="text/html" id="detailApp">
@@ -128,18 +137,32 @@
             </div>
             <div id="chartContainer" style="height: 300px; width: 100%;"></div>
             <div id="chartContainerbudget" style="height: 300px; width: 100%;"></div>
+            <div id="chartContainervolunteer" style="height: 300px; width: 100%;"></div> 
         </div>         
       </div>
       <div class="row">
+        <div class="span6">
+          <div id="chartContainerlocation" style="height: 300px; width: 100%;"></div>
+        </div>
+          <div class="span6">
+          <div id="chartContainereventtype" style="height: 300px; width: 100%;"></div>
+        </div>
+      </div>
+      <div class="row">
         <div class="span12">
-            <h2>Face Recognition</h2>
+            <h2>Tweet</h2>
               <div id="app">
               {% if data %}
               {% mustache "detailApp" data %}
               {% endif %}
               </div>
-
-
+        </div>         
+      </div>
+      <div class="row">
+        <div class="span12">
+            <h2>Face Recognition</h2>
+              <div id="faceapp">
+              </div>
         </div>         
       </div>
     <div class="row"><div class="span12"><h2>Proudly Sponsored by Splunk Service Canada</h2></div></div>

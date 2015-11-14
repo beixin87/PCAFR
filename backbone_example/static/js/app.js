@@ -7,6 +7,10 @@
         urlRoot: PREDICT_API
     });
 
+    window.Face = Backbone.Model.extend({
+        urlRoot: FACE_API
+    });
+
     window.Tweets = Backbone.Collection.extend({
         urlRoot: TWEET_API,
         model: Tweet, 
@@ -46,8 +50,6 @@
 
             model.fetch(options);
         }
-        
-
     });
 
     window.Predicts = Backbone.Collection.extend({
@@ -84,6 +86,47 @@
             }
 
             model = new Predict({
+                resource_uri: id
+            });
+
+            model.fetch(options);
+        }
+    });
+
+    window.Faces = Backbone.Collection.extend({
+        urlRoot: FACE_API,
+        model: Face, 
+
+        maybeFetch: function(options){
+            // Helper function to fetch only if this collection has not been fetched before.
+            if(this._fetched){
+                // If this has already been fetched, call the success, if it exists
+                options.success && options.success();
+                return;
+            }
+
+            // when the original success function completes mark this collection as fetched
+            var self = this,
+                successWrapper = function(success){
+                    return function(){
+                        self._fetched = true;
+                        success && success.apply(this, arguments);
+                    };
+                };
+            options.success = successWrapper(options.success);
+            this.fetch(options);
+        },
+
+        getOrFetch: function(id, options){
+            // Helper function to use this collection as a cache for models on the server
+            var model = this.get(id);
+
+            if(model){
+                options.success && options.success(model);
+                return;
+            }
+
+            model = new Tweet({
                 resource_uri: id
             });
 
@@ -137,6 +180,29 @@
         }                                        
     });
 
+    window.FaceView = Backbone.View.extend({
+        tagName: 'li',
+        className: 'face',
+
+        events: {
+            'click .permalink': 'navigate'           
+        },
+
+        initialize: function(){
+            this.model.bind('change', this.render, this);
+        },
+
+        navigate: function(e){
+            this.trigger('navigate', this.model);
+            e.preventDefault();
+        },
+
+        render: function(){
+            $(this.el).html(ich.faceTemplate(this.model.toJSON()));
+            return this;
+        }                                        
+    });
+
     window.DetailApp = Backbone.View.extend({
         events: {
             'click .home': 'home'
@@ -151,6 +217,27 @@
             $(this.el).html(ich.detailApp(this.model.toJSON()));
             return this;
         }                                        
+    });
+
+    window.algorithmView = Backbone.View.extend({
+        events : {
+            'click .data' : 'uploadData'
+        },
+
+        uploadData: function(e){
+            data = new Predict({
+                resource_uri: '/api/v1/predict/dataload'
+            });
+
+            data.fetch({
+                success: function(){
+                    console.log("data upload success")
+                },
+                error : function(){
+                    console.log("error")
+                }
+            });
+        }
     });
 
     window.InputView = Backbone.View.extend({
@@ -168,12 +255,41 @@
         },
 
         createTweet: function(){
+            console.log("create")
             var message = this.$('#message').val();
             if(message){
                 this.collection.create({
                     message: message
                 });
                 this.$('#message').val('');
+            }
+        }
+    });
+
+    window.faceInputView = Backbone.View.extend({
+        events: {
+            'click .face': 'createFace',
+            'keypress #img': 'createOnEnter'
+        },
+
+        createOnEnter: function(e){
+            console.log("Helper")
+            if((e.keyCode || e.which) == 13){
+                this.createFace();
+                e.preventDefault();
+            }
+
+        },
+
+        createFace: function(){
+            console.log("sdsa")
+            var img = this.$('#img').val();
+            console.log(img)
+            if(img){
+                this.collection.create({
+                    img: img
+                });
+                this.$('#img').val('');
             }
         }
 
@@ -237,6 +353,34 @@
 
     });
 
+    window.FaceListView = Backbone.View.extend({
+        initialize: function(){
+            _.bindAll(this, 'addOne', 'addAll');
+
+            this.collection.bind('add', this.addOne);
+            this.collection.bind('reset', this.addAll, this);
+            this.views = [];
+        },
+
+        addAll: function(){
+            this.views = [];
+            this.collection.each(this.addOne);
+        },
+
+        addOne: function(face){
+            var view = new FaceView({
+                model: face
+            });
+            $(this.el).prepend(view.render().el);
+            this.views.push(view);
+            view.bind('all', this.rethrow, this);
+        },
+
+        rethrow: function(){
+            this.trigger.apply(this, arguments);
+        }
+    });
+
     window.ListApp = Backbone.View.extend({
         el: "#app",
 
@@ -274,6 +418,32 @@
             });
             list.addAll();
             list.bind('all', this.rethrow, this);
+            new algorithmView({
+                collection: this.collection,
+                el: this.$('#input')
+            });
+        }        
+    });
+
+    window.FaceListApp = Backbone.View.extend({
+        el: "#faceapp",
+
+        rethrow: function(){
+            this.trigger.apply(this, arguments);
+        },
+
+        render: function(){
+            $(this.el).html(ich.facelistApp({}));
+            var list = new FaceListView({
+                collection: this.collection,
+                el: this.$('#faces')
+            });
+            list.addAll();
+            list.bind('all', this.rethrow, this);
+            new faceInputView({
+                collection: this.collection,
+                el: this.$('#input')
+            });
         }        
     });
 
@@ -300,7 +470,7 @@
             var chart = new CanvasJS.Chart("chartContainer", {
             theme: "theme1",//theme1
             title:{
-            text: "XinViteer Event Number Analytics"              
+            text: "XinViteer Data Engine Summarize"              
             },
             animationEnabled: false,   // change to true
             data: [              
@@ -308,11 +478,11 @@
                 // Change type to "bar", "area", "spline", "pie",etc.
                 type: "column",
                 dataPoints: [
-                { label: "December",  y: 10  },
-                { label: "November", y: 15  },
-                { label: "October", y: 25  },
-                { label: "September",  y: 30  },
-                { label: "August",  y: 28  }
+                { label: "Event Type",  y: 15  },
+                { label: "Location", y: 7  },
+                { label: "Average Score", y: 25  },
+                { label: "Average Bonus",  y: 30  },
+                { label: "Average Volunteer Number",  y: 13  }
                 ]
                 }
             ]
@@ -322,14 +492,14 @@
             var chart2 = new CanvasJS.Chart("chartContainerbudget", {
             theme: "theme1",//theme1
             title:{
-            text: "XinViteer Event budget Analytics"              
+            text: "XinViteer Event Budget Predict"              
             },
             animationEnabled: false,   // change to true
             axisX: {
-                    title: "Event number",
+                    title: "Volunteer Number",
             },
             axisY: {
-                    title: "Event budget",
+                    title: "Predict Event budget",
             },
             data: [{
                 type: "line",
@@ -358,8 +528,94 @@
                 chart2.render();
             };
 
+            var chart3 = new CanvasJS.Chart("chartContainervolunteer", {
+            theme: "theme1",//theme1
+            title:{
+            text: "XinViteer Volunteer Number Predict"              
+            },
+            animationEnabled: false,   // change to true
+            axisX: {
+                    title: "Location",
+            },
+            axisY: {
+                    title: "Predict Volunteer Number",
+            },
+            data: [{
+                type: "column",
+                dataPoints: dps
+            }]
+            });
+
+            var updateChart3 = function () {
+                predicts.fetch({
+                    data: { limit : 5000 },
+                    success: function(predicts, rawresponse){
+                        for (predict in rawresponse['objects']){
+                            console.log("success")
+                            budget = rawresponse['objects'][predict]['budget'];
+                            seq = rawresponse['objects'][predict]['seq']
+                            dps.push({
+                                    x: seq,
+                                    y: budget
+                            })
+                            if(dps.length > 6200){
+                                chart3.render();
+                            }
+                        }
+                    }
+                });    
+                chart3.render();
+            };
+
+            var chart4 = new CanvasJS.Chart("chartContainerlocation", {
+            theme: "theme1",//theme1
+            title:{
+            text: "XinViteer Event Location Distribution"              
+            },
+            animationEnabled: false,   // change to true
+            data: [              
+                {
+                // Change type to "bar", "area", "spline", "pie",etc.
+                type: "pie",
+                dataPoints: [
+                { label: "Vancouver",  y: 22  },
+                { label: "Burnaby", y: 17  },
+                { label: "Richmond", y: 33  },
+                { label: "West Vancouver",  y: 3  },
+                { label: "North Vancouver",  y: 19  },
+                { label: "Coquitlam",  y: 44 },
+                { label: "Langley",  y: 50  }
+                ]
+                }
+            ]
+            });
+
+            var chart5 = new CanvasJS.Chart("chartContainereventtype",
+            {
+                title:{
+                    text: "XinViteer Event Type Distribution"
+                },
+
+                data: [
+                {
+                type: "doughnut",
+                showInLegend: true,
+                dataPoints: [
+                    {  y: 53.37, legendText:"Contest 53%", indexLabel: "Contest 53%" },
+                    {  y: 35.0, legendText:"Fundraising 35%", indexLabel: "Fundraising 35%" },
+                    {  y: 7, legendText:"Festival 7%", indexLabel: "Festival 7%" },
+                    {  y: 2, legendText:"Childcare 2%", indexLabel: "Childcare 2%" },
+                    {  y: 5, legendText:"Others 5%", indexLabel: "Others 5%" }
+                ]
+            }
+            ]
+        });
+
             chart.render();
             updateChart2();
+            updateChart3();
+            chart4.render();
+            chart5.render();
     }
 
     $(function(){
@@ -367,6 +623,11 @@
         app.router = new Router();
         app.tweets = new Tweets();
         app.predicts = new Predicts();
+        app.faces = new Faces();
+        app.facelist = new FaceListApp({
+            el: $('#faceapp'),
+            collection: app.faces
+        });
         app.predictlist = new PredictListApp({
             el: $('#predictapp'),
             collection: app.predicts
@@ -384,6 +645,9 @@
             });
             app.predicts.maybeFetch({
                 success: _.bind(app.predictlist.render, app.predictlist)
+            });
+            app.faces.maybeFetch({
+                success: _.bind(app.facelist.render, app.facelist)
             });
         });
         app.router.bind('route:detail', function(id){
