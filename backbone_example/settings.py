@@ -89,5 +89,6 @@ INSTALLED_APPS = (
 
     'tweets',
     'predicts',
+    'stats',
     'faces',
 )

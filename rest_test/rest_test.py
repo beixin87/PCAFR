@@ -43,9 +43,20 @@ if __name__ == "__main__":
             for predict in predict_budge:
                 data = '{"seq": "' + str(seq) + '", "budget": "' + str(predict) + '"}'
                 headers = {'Content-Type': 'application/json'}
+                print "seq" + str(seq)
                 response = requests.post('http://localhost:8000/api/v1/predict/', data=data, headers=headers)
                 seq = seq + 1
-
+            # stats = [1,2,3,4,5,6]
+            # for stat in stats:
+            #     geo_location = "west vancouver"
+            #     event_number = 3
+            #     volunteer_number = 4
+            #     month = "January"
+            #     month_event_number = 10
+            #     month_volunteer_number = 32
+            #     data = '{"geo_location": "' + str(geo_location) + '", "event_number": "' + str(event_number) + '", "volunteer_number": "' + str(volunteer_number) + '", "month": "' + str(month) + '", "month_event_number": "' + str(month_event_number) + '", "month_volunteer_number": "' + str(month_volunteer_number) + '"}'
+            #     headers = {'Content-Type': 'application/json'}
+            #     response = requests.post('http://localhost:8000/api/v1/stat/', data=data, headers=headers)
             # data = data[:-1]
             # print data
             # data_json = json.dumps(data)

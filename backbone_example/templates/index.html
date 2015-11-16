@@ -37,19 +37,20 @@
 
     <!-- Google Fonts -->
     <link href='http://fonts.googleapis.com/css?family=Asap:400,700,400italic,700italic&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="//canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}js/underscore-min.js"></script>
     <script src="{{ STATIC_URL }}js/backbone-min.js"></script>
     <script src="{{ STATIC_URL }}js/backbone-tastypie.js"></script>
     <script src="{{ STATIC_URL }}js/ICanHaz.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/0.1.0/js/footable.min.js" type="text/javascript"></script>
 
     <script>
     TWEET_API = "{% url api_dispatch_list api_name="v1" resource_name="tweet" %}";
     PREDICT_API = "{% url api_dispatch_list api_name="v1" resource_name="predict" %}";
     FACE_API = "{% url api_dispatch_list api_name="v1" resource_name="face" %}";
+    STAT_API = "{% url api_dispatch_list api_name="v1" resource_name="stat" %}";
     {% if data %}
     app = {loaded: true};
     {% endif %}
@@ -83,6 +84,7 @@
     <script type="text/html" id="detailApp">
     {% straight_include "detailApp.mustache" %}
     </script>
+
   </head>
 
   <body>
@@ -131,23 +133,26 @@
       <p>&nbsp;&nbsp;&nbsp;Given an input image and new member’s information, our goal is to find out the top k-similar images to the input image from the stored set of historical images of the volunteer members. Note that the value of k could be set by the user.</p>
       </div>
     </div>
+      <div id="predictapp">
+      </div>
+      <div class="row spacer30"></div> 
+      <div class="row">
+        <div class="span6">
+          <div id="chartContainerlocation" style="height: 300px; width: 100%;"></div>
+        </div>
+        <div class="span6">
+          <div id="chartContainermonth" style="height: 300px; width: 100%;"></div>
+        </div>
+      </div>
+      <div class="row spacer30"></div> 
       <div class="row">
         <div class="span12">
-            <div id="predictapp">
-            </div>
             <div id="chartContainer" style="height: 300px; width: 100%;"></div>
             <div id="chartContainerbudget" style="height: 300px; width: 100%;"></div>
             <div id="chartContainervolunteer" style="height: 300px; width: 100%;"></div> 
         </div>         
       </div>
-      <div class="row">
-        <div class="span6">
-          <div id="chartContainerlocation" style="height: 300px; width: 100%;"></div>
-        </div>
-          <div class="span6">
-          <div id="chartContainereventtype" style="height: 300px; width: 100%;"></div>
-        </div>
-      </div>
+      <div class="row spacer30"></div>
       <div class="row">
         <div class="span12">
             <h2>Tweet</h2>
@@ -168,8 +173,7 @@
     <div class="row"><div class="span12"><h2>Proudly Sponsored by Splunk Service Canada</h2></div></div>
     <a href="http://www.splunk.com/"><img src="https://s3-us-west-2.amazonaws.com/xinviteer/logo/splunk-dark.jpg"/></a>
     <div class="row spacer50"></div> 
-    </div>   
-
+    </div>
   <!-- Footer -->
   <footer id="footer">
   <div class="container footer">

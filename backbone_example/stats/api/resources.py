@@ -9,11 +9,11 @@ import splunklib.client as client
 from splunklib.binding import HTTPError
 
 
-from predicts.models import Predict
+from stats.models import Stat
 
-class PredictResource(ModelResource):
+class StatResource(ModelResource):
     class Meta:
-        queryset = Predict.objects.all()
+        queryset = Stat.objects.all()
         authorization = Authorization()
         list_allowed_methods = ['get', 'post']
         detail_allowed_methods = ['get']

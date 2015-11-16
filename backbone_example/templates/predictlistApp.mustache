@@ -2,12 +2,35 @@
 <div id="input">
   <h3>Data Summary : </h3>
   <select>
-  	<option value="location">Location</option>
-  	<option value="eventnumber">Event Number</option>
+  	<option value="geo_location">Location</option>
+  	<option value="month">Month</option>
   	<option value="all">All</option>
   </select>
+  <button class="choose">Display</button>
   <br>
   <button class="data">Load</button>
 </div>
-<ul id="predicts">
-</ul>
+<h3>Dataset Preview:</h3>
+    <table class="footable" data-filter="#filter">
+    <thead>
+        <tr>
+          <th data-sort-initial="descending" data-class="expand">
+            Budegt
+          </th>
+          <th data-sort-ignore="true">
+            Event Type
+          </th>
+          <th data-hide="phone,tablet">
+            Total Number
+          </th>
+          <th data-hide="phone,tablet" data-type="numeric">
+            Location
+          </th>
+          <th data-hide="phone" data-type="numeric">
+            Volunteer Number
+          </th>
+        </tr>
+     </thead>
+<tbody id="predicts">
+</tbody>
+</table>

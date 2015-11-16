@@ -11,6 +11,11 @@
         urlRoot: FACE_API
     });
 
+    window.Stat = Backbone.Model.extend({
+        urlRoot: STAT_API
+    });
+
+
     window.Tweets = Backbone.Collection.extend({
         urlRoot: TWEET_API,
         model: Tweet, 
@@ -134,6 +139,47 @@
         }
     });
 
+    window.Stats = Backbone.Collection.extend({
+        urlRoot: STAT_API,
+        model: Stat, 
+
+        maybeFetch: function(options){
+            // Helper function to fetch only if this collection has not been fetched before.
+            if(this._fetched){
+                // If this has already been fetched, call the success, if it exists
+                options.success && options.success();
+                return;
+            }
+
+            // when the original success function completes mark this collection as fetched
+            var self = this,
+                successWrapper = function(success){
+                    return function(){
+                        self._fetched = true;
+                        success && success.apply(this, arguments);
+                    };
+                };
+            options.success = successWrapper(options.success);
+            this.fetch(options);
+        },
+
+        getOrFetch: function(id, options){
+            // Helper function to use this collection as a cache for models on the server
+            var model = this.get(id);
+
+            if(model){
+                options.success && options.success(model);
+                return;
+            }
+
+            model = new Tweet({
+                resource_uri: id
+            });
+
+            model.fetch(options);
+        }
+    });
+
     window.TweetView = Backbone.View.extend({
         tagName: 'li',
         className: 'tweet',
@@ -158,7 +204,7 @@
     });
 
     window.PredictView = Backbone.View.extend({
-        tagName: 'li',
+        tagName: 'tr',
         className: 'predict',
 
         events: {
@@ -325,6 +371,8 @@
     });
 
     window.PredictListView = Backbone.View.extend({
+        tagName: 'tbody',
+
         initialize: function(){
             _.bindAll(this, 'addOne', 'addAll');
 
@@ -464,9 +512,12 @@
         list: function(){}
     });
 
-    window.onload = function () {
+    $(window).on("load", function () {
             var dps = []; // dataPoints
+            var stat_dps = [];
+            var month_dps = [];
             var predicts = new Predicts();
+            var stats = new Stats();
             var chart = new CanvasJS.Chart("chartContainer", {
             theme: "theme1",//theme1
             title:{
@@ -512,14 +563,14 @@
                     data: { limit : 5000 },
                     success: function(predicts, rawresponse){
                         for (predict in rawresponse['objects']){
-                            console.log("success")
+                            // console.log("success")
                             budget = rawresponse['objects'][predict]['budget'];
                             seq = rawresponse['objects'][predict]['seq']
                             dps.push({
                                     x: seq,
                                     y: budget
                             })
-                            if(dps.length > 3100){
+                            if(dps.length > 3150){
                                 chart2.render();
                             }
                         }
@@ -551,14 +602,14 @@
                     data: { limit : 5000 },
                     success: function(predicts, rawresponse){
                         for (predict in rawresponse['objects']){
-                            console.log("success")
+                            // console.log("success")
                             budget = rawresponse['objects'][predict]['budget'];
                             seq = rawresponse['objects'][predict]['seq']
                             dps.push({
                                     x: seq,
                                     y: budget
                             })
-                            if(dps.length > 6200){
+                            if(dps.length > 6300){
                                 chart3.render();
                             }
                         }
@@ -577,46 +628,79 @@
                 {
                 // Change type to "bar", "area", "spline", "pie",etc.
                 type: "pie",
-                dataPoints: [
-                { label: "Vancouver",  y: 22  },
-                { label: "Burnaby", y: 17  },
-                { label: "Richmond", y: 33  },
-                { label: "West Vancouver",  y: 3  },
-                { label: "North Vancouver",  y: 19  },
-                { label: "Coquitlam",  y: 44 },
-                { label: "Langley",  y: 50  }
-                ]
+                dataPoints: stat_dps
                 }
             ]
             });
 
-            var chart5 = new CanvasJS.Chart("chartContainereventtype",
-            {
-                title:{
-                    text: "XinViteer Event Type Distribution"
-                },
+            var updateChart4 = function () {
+                stats.fetch({
+                    data: { limit : 5000 },
+                    success: function(predicts, rawresponse){
+                        for (stat in rawresponse['objects']){
+                            // console.log("success")
+                            geo_location = rawresponse['objects'][stat]['geo_location'];
+                            // console.log(geo_location)
+                            event_number = rawresponse['objects'][stat]['event_number']
+                            // console.log(event_number)
+                            stat_dps.push({
+                                    label: geo_location,
+                                    y: event_number
+                            })
+                            chart4.render();
+                        }
+                    }
+                });    
+                chart4.render();
+            };
 
-                data: [
+            var chart5 = new CanvasJS.Chart("chartContainermonth", {
+            theme: "theme1",//theme1
+            title:{
+            text: "XinViteer Event Month Distribution"              
+            },
+            animationEnabled: false,   // change to true
+            data: [              
                 {
-                type: "doughnut",
-                showInLegend: true,
-                dataPoints: [
-                    {  y: 53.37, legendText:"Contest 53%", indexLabel: "Contest 53%" },
-                    {  y: 35.0, legendText:"Fundraising 35%", indexLabel: "Fundraising 35%" },
-                    {  y: 7, legendText:"Festival 7%", indexLabel: "Festival 7%" },
-                    {  y: 2, legendText:"Childcare 2%", indexLabel: "Childcare 2%" },
-                    {  y: 5, legendText:"Others 5%", indexLabel: "Others 5%" }
-                ]
-            }
+                // Change type to "bar", "area", "spline", "pie",etc.
+                type: "pie",
+                dataPoints: month_dps
+                }
             ]
-        });
+            });
+
+            var updateChart5 = function () {
+                stats.fetch({
+                    data: { limit : 5000 },
+                    success: function(predicts, rawresponse){
+                        for (stat in rawresponse['objects']){
+                            // console.log("success")
+                            month = rawresponse['objects'][stat]['month'];
+                            // console.log(month)
+                            month_event_number = rawresponse['objects'][stat]['month_event_number']
+                            // console.log(month_event_number)
+                            month_dps.push({
+                                    label: month,
+                                    y: month_event_number
+                            })
+                            chart5.render();
+                        }
+                    }
+                });    
+                chart5.render();
+            };
 
             chart.render();
             updateChart2();
             updateChart3();
-            chart4.render();
-            chart5.render();
-    }
+            updateChart4();
+            updateChart5();
+    });
+
+    $('table').footable({
+        breakpoints: {
+        }
+    });
 
     $(function(){
         window.app = window.app || {};
@@ -644,7 +728,9 @@
                 success: _.bind(app.list.render, app.list)                
             });
             app.predicts.maybeFetch({
-                success: _.bind(app.predictlist.render, app.predictlist)
+                success: _.bind(app.predictlist.render, app.predictlist),
+                data: {offset: 0, limit:5},
+                add: true
             });
             app.faces.maybeFetch({
                 success: _.bind(app.facelist.render, app.facelist)
