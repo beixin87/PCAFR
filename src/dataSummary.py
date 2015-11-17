@@ -74,6 +74,7 @@ def data_upload():
 
 if __name__ == "__main__":
     data_upload()
+    print columnChartAnalytics()
 
 
 

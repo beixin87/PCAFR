@@ -527,7 +527,36 @@
             var month_dps = [];
             var predicts = new Predicts();
             var stats = new Stats();
+            CanvasJS.addColorSet("greenShades",
+            [
+                "#2E8B57",
+                "#2F4F4F",
+                "#008080",
+                "#3CB371",
+                "#90EE90"                
+            ]);
+
             var chart = new CanvasJS.Chart("chartContainer", {
+            theme: "theme1",//theme1
+            title:{
+            text: "XinViteer Data Engine Summarize"              
+            },
+            colorSet: "greenShades",
+            animationEnabled: false,   // change to true
+            data: [              
+                {
+                // Change type to "bar", "area", "spline", "pie",etc.
+                type: "column",
+                dataPoints: [
+                { label: "Event Type",  y: 37  },
+                { label: "Location", y: 9  },
+                { label: "Average Volunteer Number",  y: 25  }
+                ]
+                }
+            ]
+            });
+
+            var chartsub = new CanvasJS.Chart("chartContainersub", {
             theme: "theme1",//theme1
             title:{
             text: "XinViteer Data Engine Summarize"              
@@ -538,16 +567,13 @@
                 // Change type to "bar", "area", "spline", "pie",etc.
                 type: "column",
                 dataPoints: [
-                { label: "Event Type",  y: 15  },
-                { label: "Location", y: 7  },
-                { label: "Average Score", y: 25  },
-                { label: "Average Bonus",  y: 30  },
-                { label: "Average Volunteer Number",  y: 13  }
+                { label: "Events", y: 3152},
+                { label: "Average Participation ", y: 311  },
+                { label: "Average Event Budget",  y: 2525  },
                 ]
                 }
             ]
             });
-
 
             var chart2 = new CanvasJS.Chart("chartContainerbudget", {
             theme: "theme1",//theme1
@@ -639,8 +665,11 @@
                 {
                 // Change type to "bar", "area", "spline", "pie",etc.
                 type: "pie",
+                showInLegend: true,
+                toolTipContent: "{legendText} - {y} events - <strong>#percent%</strong>",
                 dataPoints: stat_dps
                 }
+
             ]
             });
 
@@ -654,11 +683,14 @@
                             // console.log(geo_location)
                             event_number = rawresponse['objects'][stat]['event_number']
                             // console.log(event_number)
-                            stat_dps.push({
-                                    label: geo_location,
-                                    y: event_number
-                            })
-                            chart4.render();
+                            if(geo_location != "test"){
+                                stat_dps.push({
+                                        label: geo_location,
+                                        legendText: geo_location,
+                                        y: event_number
+                                })
+                                chart4.render();
+                            }
                         }
                     }
                 });    
@@ -670,12 +702,14 @@
             title:{
             text: "XinViteer Event Month Distribution"              
             },
+            axisY: {
+                title: "Events"
+            },
             animationEnabled: false,   // change to true
-            interactivityEnabled: true,
             data: [              
                 {
-                // Change type to "bar", "area", "spline", "pie",etc.
-                type: "pie",
+                type: "bar",
+                toolTipContent: "{y} events",
                 dataPoints: month_dps
                 }
             ]
@@ -688,14 +722,14 @@
                         for (stat in rawresponse['objects']){
                             // console.log("success")
                             month = rawresponse['objects'][stat]['month'];
-                            // console.log(month)
                             month_event_number = rawresponse['objects'][stat]['month_event_number']
-                            // console.log(month_event_number)
-                            month_dps.push({
-                                    label: month,
-                                    y: month_event_number
-                            })
-                            chart5.render();
+                            if(month != "test" && month_event_number != 0){
+                                month_dps.push({
+                                        label: month.substring(0,3),
+                                        y: month_event_number
+                                })
+                                chart5.render();
+                            }
                         }
                     }
                 });    
@@ -703,6 +737,7 @@
             };
 
             chart.render();
+            chartsub.render();
             updateChart2();
             updateChart3();
             updateChart4();
