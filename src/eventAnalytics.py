@@ -1,15 +1,15 @@
 author__ = 'aradon'
 
-
 import numpy as np
 import pandas as pd
 from sklearn.cross_decomposition import PLSRegression
 from sklearn.metrics import mean_squared_error
 from math import sqrt
+import requests
 
 
 def predictEvent():
-    Location = '/Users/aradon/Documents/SplunkWork/HackWeek/EventAnalytics/SplunkHW/data/event_data.csv'
+    Location = '../data/event_data.csv'
     df = pd.read_csv(Location)
     df['satisfy'] = df['satisfy'].astype('category')
     df['volunteerCertification'] = df['volunteerCertification'].astype('category')
@@ -34,15 +34,31 @@ def predictEvent():
 
     Predicted_Y = pls2.predict(test_X)
     rmse_budget= sqrt(mean_squared_error(test_Y['eventBudget'], Predicted_Y[:, 0]))
-    rmse_vounteer_number = sqrt(mean_squared_error(test_Y['volunteerNumber'], Predicted_Y[:, 1]))
+    rmse_volunteer_number = sqrt(mean_squared_error(test_Y['volunteerNumber'], Predicted_Y[:, 1]))
     predicted_budget = Predicted_Y[:, 0]
     original_budget = test_Y['eventBudget'].tolist()
     predicted_volunteer_number = Predicted_Y[:, 1]
     original_volunteer_number = test_Y['volunteerNumber'].tolist()
 
-    return original_budget, predicted_budget, original_volunteer_number, predicted_volunteer_number, rmse_budget, rmse_vounteer_number
+    return original_budget, predicted_budget, original_volunteer_number, predicted_volunteer_number, rmse_budget, rmse_volunteer_number
 
-original_budget, predicted_budget, original_volunteer_number, predicted_volunteer_number, rmse_budget, rmse_vounteer_number = predictEvent()
+def data_upload():
+    original_budget, predicted_budget, original_volunteer_number, predicted_volunteer_number, rmse_budget, rmse_volunteer_number = predictEvent()
+    try:
+        seq = 0
+        for budget in original_budget:
+            # print original_budget[seq]
+            data = '{"seq": "' + str(seq) + '", "original_budget": "' + str(original_budget[seq]) + '", "predicted_budget": "' + str(int(float(predicted_budget[seq]))) + '", "original_volunteer_number": "' + str(original_volunteer_number[seq]) + '", "predicted_volunteer_number": "' + str(int(float(predicted_volunteer_number[seq])))  + '", "rmse_budget": "' + str(rmse_budget)  + '", "rmse_volunteer_number": "' + str(rmse_volunteer_number) + '"}';
+            headers = {'Content-Type': 'application/json'}
+            print "seq" + str(seq)
+            response = requests.post('http://localhost:8000/api/v1/predict/', data=data, headers=headers)
+            print response
+            seq = seq + 1
+    except:
+        raise
+
+if __name__ == "__main__":
+    data_upload()
 
 
 

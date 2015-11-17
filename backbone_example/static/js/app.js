@@ -267,22 +267,30 @@
 
     window.algorithmView = Backbone.View.extend({
         events : {
-            'click .data' : 'uploadData'
+            'click .data' : 'uploadData',
+            'click .show' : 'show'
+        },
+
+        show: function(e){
+            var windows = this.$('#window');
+            console.log(windows)
+            windows.show();
         },
 
         uploadData: function(e){
-            data = new Predict({
-                resource_uri: '/api/v1/predict/dataload'
-            });
+            console.log("Apply Models")
+            // data = new Predict({
+            //     resource_uri: '/api/v1/predict/dataload'
+            // });
 
-            data.fetch({
-                success: function(){
-                    console.log("data upload success")
-                },
-                error : function(){
-                    console.log("error")
-                }
-            });
+            // data.fetch({
+            //     success: function(){
+            //         console.log("data upload success")
+            //     },
+            //     error : function(){
+            //         console.log("error")
+            //     }
+            // });
         }
     });
 
@@ -514,6 +522,7 @@
 
     $(window).on("load", function () {
             var dps = []; // dataPoints
+            var vdps = [];
             var stat_dps = [];
             var month_dps = [];
             var predicts = new Predicts();
@@ -545,9 +554,10 @@
             title:{
             text: "XinViteer Event Budget Predict"              
             },
-            animationEnabled: false,   // change to true
+            animationEnabled: false,
+            interactivityEnabled: true,
             axisX: {
-                    title: "Volunteer Number",
+                    title: "Event",
             },
             axisY: {
                     title: "Predict Event budget",
@@ -564,13 +574,13 @@
                     success: function(predicts, rawresponse){
                         for (predict in rawresponse['objects']){
                             // console.log("success")
-                            budget = rawresponse['objects'][predict]['budget'];
+                            predicted_budget = rawresponse['objects'][predict]['predicted_budget'];
                             seq = rawresponse['objects'][predict]['seq']
                             dps.push({
                                     x: seq,
-                                    y: budget
+                                    y: predicted_budget
                             })
-                            if(dps.length > 3150){
+                            if(dps.length > 1260){
                                 chart2.render();
                             }
                         }
@@ -586,14 +596,14 @@
             },
             animationEnabled: false,   // change to true
             axisX: {
-                    title: "Location",
+                    title: "Event",
             },
             axisY: {
                     title: "Predict Volunteer Number",
             },
             data: [{
-                type: "column",
-                dataPoints: dps
+                type: "scatter",
+                dataPoints: vdps
             }]
             });
 
@@ -602,14 +612,15 @@
                     data: { limit : 5000 },
                     success: function(predicts, rawresponse){
                         for (predict in rawresponse['objects']){
-                            // console.log("success")
-                            budget = rawresponse['objects'][predict]['budget'];
+                            predicted_volunteer_number = rawresponse['objects'][predict]['predicted_volunteer_number'];
+                            // console.log(predicted_budget)
                             seq = rawresponse['objects'][predict]['seq']
-                            dps.push({
+                            // console.log(seq)
+                            vdps.push({
                                     x: seq,
-                                    y: budget
+                                    y: predicted_volunteer_number
                             })
-                            if(dps.length > 6300){
+                            if(vdps.length > 1260){
                                 chart3.render();
                             }
                         }
@@ -660,6 +671,7 @@
             text: "XinViteer Event Month Distribution"              
             },
             animationEnabled: false,   // change to true
+            interactivityEnabled: true,
             data: [              
                 {
                 // Change type to "bar", "area", "spline", "pie",etc.
@@ -751,5 +763,6 @@
             pushState: true, 
             silent: app.loaded
         });
+
     });
 })();

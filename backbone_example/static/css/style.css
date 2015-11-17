@@ -3614,3 +3614,87 @@ a.select{
   border:2px #FFF solid; 
 }
 
+.modalDialog {
+  position: fixed;
+  font-family: Arial, Helvetica, sans-serif;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0,0,0,0.8);
+  z-index: 99999;
+  opacity:0;
+  -webkit-transition: opacity 400ms ease-in;
+  -moz-transition: opacity 400ms ease-in;
+  transition: opacity 400ms ease-in;
+  pointer-events: none;
+}
+
+.modalDialog:target {
+  opacity:1;
+  pointer-events: auto;
+}
+
+.modalDialog > div {
+  width: 400px;
+  position: relative;
+  margin: 10% auto;
+  padding: 5px 20px 13px 20px;
+  border-radius: 10px;
+  background: #fff;
+  background: -moz-linear-gradient(#fff, #999);
+  background: -webkit-linear-gradient(#fff, #999);
+  background: -o-linear-gradient(#fff, #999);
+}
+.form-style-7{
+    max-width:400px;
+    background:#fff;
+    border-radius:2px;
+    font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+.form-style-7 input[type="submit"]{
+    border-radius:25px;
+    padding:14px 18px;
+    color: #FFF;
+    text-shadow: none;
+    -webkit-box-shadow: rgba(0, 0, 0, 0) 0 0 0 !important;
+    box-shadow: rgba(0, 0, 0, 0) 0 0 0 !important;
+    border: 0px;
+    margin-bottom: 8px;
+    background: #262626;
+    border: 0px #B1C1C5 solid;
+    font-weight:normal;
+    font-family: "Asap";
+}
+
+.form-style-7 input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden;
+}
+
+.form-style-7 input[type="file"]::before{
+  content: 'Image';
+  color: #FFF;
+  margin-top: 1px;
+  cursor: pointer;
+  text-shadow: 1px 1px #fff;
+  font-weight:normal;
+  font-family: "Asap";
+  padding:14px 18px;
+  color: #FFF;
+  text-shadow: none;
+  -webkit-box-shadow: rgba(0, 0, 0, 0) 0 0 0 !important;
+  box-shadow: rgba(0, 0, 0, 0) 0 0 0 !important;
+  border: 0px;
+  background: #262626;
+  border: 0px #B1C1C5 solid;
+  font-weight:normal;
+  font-family: "Asap";
+}
+
+.form-style-7 input[type="file"]{
+  color: transparent;
+  border:2px #BEBEBE solid;
+}
+
+
