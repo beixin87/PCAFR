@@ -13,18 +13,43 @@ def pieChartEventNumberPerLocation():
     return eventPerLocation # search through the dictionary to populate the pie chart
 
 def pieChartEventNumberPerMonth():
-    monthDict = dict()
+    months = {1: "January", 2: "February", 3: "March", 4: "April", 5: "May", 6: "June", 7: "July", 8: "August",
+              9: "September", 10: "October", 11: "November", 12:"December"}
+    monthDict = {"January": 0, "February": 0, "March": 0, "April": 0, "May": 0, "June":0, "July": 0, "August": 0,
+                 "September": 0, "October": 0, "November": 0, "December": 0}
     for i in df['eventDate']:
         stri = str(i)
         if(stri[1]=='/'):
             key = stri[0]
         else:
             key = stri[0]+stri[1]
+        key = months[int(key)]
         if(monthDict.has_key(key)):
             monthDict[key]+= 1
         else:
             monthDict[key] = 1
     return monthDict # search through the dictionary to populate the pie chart
+
+def columnChartAnalytics():
+
+    dictColumnChart = dict()
+    totalNumberOfEventType = len(pd.unique(df.eventType.ravel()))
+    dictColumnChart['totalNumberOfEventType'] = totalNumberOfEventType
+
+    totalNumberOfLocation = len(pd.unique(df.eventLocation.ravel()))
+    dictColumnChart['totalNumberOfLocation'] = totalNumberOfLocation
+
+    avgVolunteerNumber = df['volunteerNumber'].mean()
+    dictColumnChart['avgVolunteerNumber'] = avgVolunteerNumber
+
+    avgTotalNumber = df['totalNumber'].mean()
+    dictColumnChart['avgTotalNumber'] = avgTotalNumber
+
+    avgEventBudget = df['eventBudget'].mean()
+    dictColumnChart['avgEventBudget'] = avgEventBudget
+
+    dictColumnChart['totalEventNumber'] = len(df)
+    return dictColumnChart # search through the dictionary to populate the column chart
 
 def data_upload():
     eventPerLocation = pieChartEventNumberPerLocation()
