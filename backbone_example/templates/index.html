@@ -114,7 +114,13 @@
             <li class="active"><a href="http://vanpanda.com/index.html" title="Home">Home</a>
             </li>
             </li>
-            <li><a href="http://vanpanda.com/research.html" title="Research">Research</a></li>
+            <li><a href="http://vanpanda.com/research.html" title="Research">Research</a>
+            <ul>
+            <li><a href="http://vanpanda.com/research.html" title="Research"><i class="icon-home"></i>&nbsp;REASERACH HOME</a>
+            <li><a href="#face"><i class="icon-group"></i>&nbsp;FACE RECOGNITION</a></li>
+            <li><a href="#predict"><i class="icon-bar-chart"></i>&nbsp;EVENT ANALYTICS</a></li>
+            </ul>
+            </li>
             <li><a href="http://vanpanda.com/contact.html" title="Contact">Contact</a></li>
           </ul>
           </nav><!-- Main navigation end-->
@@ -125,17 +131,19 @@
     <div class="container">
     <div class="row spacer50"></div>
     <div class="row"><div class="span12"><h2>XinViteer's Research Projects</h2></div></div>
-    <div class="row"><div class="span12"><h2>Introduction</h2><br/>
-      <h4><b>The projects below are based on Splunk cutting-edge machinea learning technology and developed by two employees in Splunk.</b></h4>
-      <ul><li><b>Event Analytics</b></li>
-      <p>&nbsp;&nbsp;&nbsp;It is predicting a) budget and b) required numbers volunteers from given background information of an event such as event location, time etc. </p>
-      <li><b>Face Recognition</b></li>
-      <p>&nbsp;&nbsp;&nbsp;Given an input image and new member’s information, our goal is to find out the top k-similar images to the input image from the stored set of historical images of the volunteer members. Note that the value of k could be set by the user.</p>
+    <div class="row"><div class="span12"><h2>Introduction</h2>
+      <h4><b>Projects below are based on Splunk cutting-edge machine learning technology.</b></h4>
+      <ul><li><h3>Event Analytics</h3></li>
+      <p><b>&nbsp;&nbsp;&nbsp;It is predicting event budget and volunteer numbers for future events from given histroical event data such as event location, time etc. </b></p>
+      <li><h3>Face Recognition</h3></li>
+      <p><b>&nbsp;&nbsp;&nbsp;Given an new image, it is to find out the top 5-similar images' similarity to the new image from the stored set of historical images of the volunteer members.</b></p>
       </div>
     </div>
+      <A NAME="predict">
       <div id="predictapp">
       </div>
-      <div class="row spacer30"></div> 
+      <div class="row spacer30"></div>
+      <h3>Data Summary : </h3>
       <div class="row">
         <div class="span6">
           <div id="chartContainerlocation" style="height: 300px; width: 100%;"></div>
@@ -144,15 +152,27 @@
           <div id="chartContainermonth" style="height: 300px; width: 100%;"></div>
         </div>
       </div>
-      <div class="row spacer30"></div> 
+      <div class="row spacer30"></div>
       <div class="row">
         <div class="span12">
-            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+          <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+        </div>
+      </div>
+      <div class="row spacer30"></div>
+      <h3>Predict : </h3>
+      <div class="row">
+        <div class="span12">      
             <div id="chartContainerbudget" style="height: 300px; width: 100%;"></div>
+        </div>         
+      </div>
+      <div class="row spacer30"></div>
+      <div class="row">
+        <div class="span12">      
             <div id="chartContainervolunteer" style="height: 300px; width: 100%;"></div> 
         </div>         
       </div>
       <div class="row spacer30"></div>
+      <!--
       <div class="row">
         <div class="span12">
             <h2>Tweet</h2>
@@ -163,14 +183,23 @@
               </div>
         </div>         
       </div>
+      -->
       <div class="row">
         <div class="span12">
+          <A NAME="face">
             <h2>Face Recognition</h2>
               <div id="faceapp">
               </div>
         </div>         
       </div>
-    <div class="row"><div class="span12"><h2>Proudly Sponsored by Splunk Service Canada</h2></div></div>
+    <div class="row spacer30"></div>
+    <div class="row">
+        <div class="span12">
+        <center><a class="btn btn-color-1 btn-large" href="http://manage.vanpanda.com" align="center" style="border-radius:25px;"><i class="icon-spinner icon-spin"></i> More Details</a></center>
+        </div>      
+    </div>
+    <div class="row spacer30"></div>
+    <div class="row"><div class="span12"><h2>Proudly Sponsored by Splunk</h2></div></div>
     <a href="http://www.splunk.com/"><img src="https://s3-us-west-2.amazonaws.com/xinviteer/logo/splunk-dark.jpg"/></a>
     <div class="row spacer50"></div> 
     </div>
@@ -192,7 +221,7 @@
       </div>
       <div class="span3">
         <h4>Contact US</h4>
-        <p>Let's do volunteer together.
+        <p>XinViteers are love in motion.
         </p>
         <img src="https://s3-us-west-2.amazonaws.com/xinviteer/tabs/tab.jpg">
       </div>
@@ -200,7 +229,7 @@
         <h4>Address</h4>
         <p>1088 Burrard St<br>
            Vancover, BC<br>
-           Tel: 1+(408) 486-2000<br>
+           Tel: 1+(778) 323-0821<br>
            <a href="mailto:xinviteer@gmail.com">xinviteer@gmail.com</a>
         </p>
       </div>
