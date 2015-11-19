@@ -320,32 +320,67 @@
         }
     });
 
+    window.Similarity = Backbone.Model.extend({
+        urlRoot: '/api/v1/face/imageupload'
+    });
+
     window.faceInputView = Backbone.View.extend({
         events: {
-            'click .face': 'createFace',
-            'keypress #img': 'createOnEnter'
+            // 'click .face': 'createFace',
+            // 'keypress #img': 'createOnEnter',
+            'submit' : 'onFormSubmit'
         },
 
-        createOnEnter: function(e){
-            console.log("Helper")
-            if((e.keyCode || e.which) == 13){
-                this.createFace();
-                e.preventDefault();
-            }
+        // createOnEnter: function(e){
+        //     if((e.keyCode || e.which) == 13){
+        //         this.createFace();
+        //         e.preventDefault();
+        //     }
 
-        },
+        // },
 
-        createFace: function(){
-            console.log("sdsa")
-            var img = this.$('#img').val();
-            console.log(img)
+        createFace: function(img){
             if(img){
-                this.collection.create({
-                    img: img
-                });
+                img = img.split(",")
+                for(i in img){
+                    this.collection.create({
+                        guid: '1',
+                        similarity: img[i]
+                    });
+                }
                 this.$('#img').val('');
             }
-        }
+        },
+
+
+        onFormSubmit: function(e) {
+            var img = 0;
+            e.preventDefault();
+            image = new Similarity({
+            });
+
+            // var img = this.$('#img').val();
+
+            image.fetch({
+                async:false,
+                success: function(rawresponse){
+                    // console.log(rawresponse)
+                    for (similarity in rawresponse){
+                            if(similarity == "attributes"){
+                                img = rawresponse[similarity]['similarity'];
+                            }
+                    }   
+                },
+                error : function(){
+                    console.log("error")
+                }
+            });
+
+            this.createFace(img)
+
+            
+        },
+
 
     });
 
