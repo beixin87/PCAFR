@@ -131,7 +131,7 @@
                 return;
             }
 
-            model = new Tweet({
+            model = new Face({
                 resource_uri: id
             });
 
@@ -172,7 +172,7 @@
                 return;
             }
 
-            model = new Tweet({
+            model = new Stat({
                 resource_uri: id
             });
 
@@ -325,6 +325,7 @@
     });
 
     window.faceInputView = Backbone.View.extend({
+
         events: {
             // 'click .face': 'createFace',
             // 'keypress #img': 'createOnEnter',
@@ -352,6 +353,18 @@
             }
         },
 
+        cleanFace: function(guid){
+            if(guid){
+                console.log("remove old data...")
+                console.log(this.collection.length)
+                for( i=0; i<this.collection.length; i++){
+                    console.log(i)
+                    console.log(this.collection.reset())
+                    // console.log(this.collection.at(i))
+                }
+            }
+        },
+
 
         onFormSubmit: function(e) {
             var img = 0;
@@ -376,6 +389,9 @@
                 }
             });
 
+
+
+            // this.cleanFace('1')
             this.createFace(img)
 
             
