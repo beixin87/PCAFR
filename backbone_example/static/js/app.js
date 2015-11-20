@@ -279,18 +279,6 @@
 
         uploadData: function(e){
             console.log("Apply Models")
-            // data = new Predict({
-            //     resource_uri: '/api/v1/predict/dataload'
-            // });
-
-            // data.fetch({
-            //     success: function(){
-            //         console.log("data upload success")
-            //     },
-            //     error : function(){
-            //         console.log("error")
-            //     }
-            // });
         }
     });
 
@@ -321,50 +309,47 @@
     });
 
     window.Similarity = Backbone.Model.extend({
-        urlRoot: '/api/v1/face/imageupload'
+        urlRoot: '/api/v1/face/imageupload',
+
+        defaults: {
+            id : "Not specified",
+            similar: "Not specified"
+        }
+    });
+
+    window.Similarities = Backbone.Collection.extend({
+        urlRoot: '/api/v1/face/imageupload',
+        model: Similarity
     });
 
     window.faceInputView = Backbone.View.extend({
-
         events: {
             // 'click .face': 'createFace',
             // 'keypress #img': 'createOnEnter',
-            'submit' : 'onFormSubmit'
+            'submit form' : 'onFormSubmit'
         },
 
-        // createOnEnter: function(e){
-        //     if((e.keyCode || e.which) == 13){
-        //         this.createFace();
-        //         e.preventDefault();
-        //     }
-
-        // },
-
         createFace: function(img){
+            // tests = new Similarities()
             if(img){
                 img = img.split(",")
                 for(i in img){
-                    this.collection.create({
-                        guid: '1',
-                        similarity: img[i]
-                    });
+                    var temp_similarity = img[i]
+                    this.testloop(parseInt(i) + 1, temp_similarity)
                 }
+                // console.log(tests)
                 this.$('#img').val('');
             }
         },
 
-        cleanFace: function(guid){
-            if(guid){
-                console.log("remove old data...")
-                console.log(this.collection.length)
-                for( i=0; i<this.collection.length; i++){
-                    console.log(i)
-                    console.log(this.collection.reset())
-                    // console.log(this.collection.at(i))
-                }
-            }
-        },
+        testloop: function(i, temp_similarity){
+            var image_add = new Similarity();
+            // console.log(image_add)
+            image_add.set({ id : i, similar: temp_similarity})
+            image_add.save()
+            this.collection.add(image_add)
 
+        },
 
         onFormSubmit: function(e) {
             var img = 0;
@@ -372,7 +357,22 @@
             image = new Similarity({
             });
 
-            // var img = this.$('#img').val();
+            // var file = this.$('#img').val();
+            // console.log(file)
+
+            // console.log(this.$('#img').files)
+
+            // var form = this.$('form').val();
+            // console.log(form)
+
+            // var values = {};
+
+            if(e){ e.preventDefault(); }
+
+            _.each(this.$('#form').serializeArray(), function(input){
+                values[ input.name ] = input.value;
+                console.log(values)
+            })
 
             image.fetch({
                 async:false,
@@ -388,13 +388,7 @@
                     console.log("error")
                 }
             });
-
-
-
-            // this.cleanFace('1')
             this.createFace(img)
-
-            
         },
 
 
@@ -534,27 +528,71 @@
 
     window.FaceListApp = Backbone.View.extend({
         el: "#faceapp",
-
         rethrow: function(){
             this.trigger.apply(this, arguments);
         },
 
         render: function(){
             $(this.el).html(ich.facelistApp({}));
-            var list = new FaceListView({
-                collection: this.collection,
+            var similarities = new Similarities();
+            // var test = new Similarity();
+            // similarities.add(test)
+            var list = new FaceTestListView({
+                collection: similarities,
+                // collection: this.collection,
                 el: this.$('#faces')
             });
             list.addAll();
             list.bind('all', this.rethrow, this);
             new faceInputView({
-                collection: this.collection,
+                collection: similarities,
                 el: this.$('#input')
             });
         }        
     });
 
-    
+    window.FaceTestListView = Backbone.View.extend({
+        initialize: function(){
+            _.bindAll(this, 'addOne', 'addAll');
+
+            this.collection.bind('add', this.addOne);
+            this.collection.bind('reset', this.addAll, this);
+            this.views = [];
+        },
+
+        addAll: function(){
+            this.views = [];
+            this.collection.each(this.addOne);
+        },
+
+        addOne: function(similarity){
+            var view = new FaceTestView({
+                model: similarity
+            });
+            $(this.el).prepend(view.render().el);
+            this.views.push(view);
+            view.bind('all', this.rethrow, this);
+        },
+
+        rethrow: function(){
+            this.trigger.apply(this, arguments);
+        }
+    });
+
+    window.FaceTestView = Backbone.View.extend({
+        tagName: 'li',
+        className: 'face',
+
+        initialize: function(){
+            this.model.bind('change', this.render, this);
+        },
+
+        render: function(){
+            $(this.el).html(ich.faceTemplate(this.model.toJSON()));
+            return this;
+        }                                        
+    });
+
     window.Router = Backbone.Router.extend({
         routes: {
             '': 'list',
@@ -657,7 +695,7 @@
                                     x: seq,
                                     y: predicted_budget
                             })
-                            if(dps.length > 1260){
+                            if(dps.length >= 1230){
                                 chart2.render();
                             }
                         }
@@ -697,7 +735,7 @@
                                     x: seq,
                                     y: predicted_volunteer_number
                             })
-                            if(vdps.length > 1260){
+                            if(vdps.length >= 1230){
                                 chart3.render();
                             }
                         }
@@ -806,6 +844,7 @@
         app.tweets = new Tweets();
         app.predicts = new Predicts();
         app.faces = new Faces();
+        // app.similarities = new Similarities();
         app.facelist = new FaceListApp({
             el: $('#faceapp'),
             collection: app.faces

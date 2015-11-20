@@ -1,3 +1,3 @@
-./data/faceRecognition/Train/hui.JPG,./data/faceRecognition/Train/jodie.JPG,./data/faceRecognition/Train/vko.JPG,./data/faceRecognition/Train/ted.JPG,./data/faceRecognition/Train/zoe.JPG,./data/faceRecognition/Train/wendy.JPG,./data/faceRecognition/Train/violet.JPG
-./data/faceRecognition/Train/hans.JPG
-./data/faceRecognition/Train/lulu.JPG,./data/faceRecognition/Train/jack.JPG,./data/faceRecognition/Train/teresa.JPG,./data/faceRecognition/Train/joyce.JPG
+../data/faceRecognition/Train/hui.JPG,../data/faceRecognition/Train/jodie.JPG,../data/faceRecognition/Train/vko.JPG,../data/faceRecognition/Train/ted.JPG,../data/faceRecognition/Train/zoe.JPG,../data/faceRecognition/Train/wendy.JPG,../data/faceRecognition/Train/violet.JPG
+../data/faceRecognition/Train/hans.JPG
+../data/faceRecognition/Train/lulu.JPG,../data/faceRecognition/Train/jack.JPG,../data/faceRecognition/Train/teresa.JPG,../data/faceRecognition/Train/joyce.JPG

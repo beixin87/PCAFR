@@ -132,11 +132,26 @@
     <div class="row spacer50"></div>
     <div class="row"><div class="span12"><h2>XinViteer's Research Projects</h2></div></div>
     <div class="row"><div class="span12"><h2>Introduction</h2>
-      <h4><b>Projects below are based on Splunk cutting-edge machine learning technology.</b></h4>
+      <h4><b>Projects below are based on cutting-edge machine learning technology and implemented in Splunk Hack Week.</b></h4>
       <ul><li><h3>Event Analytics</h3></li>
       <p><b>&nbsp;&nbsp;&nbsp;It is predicting event budget and volunteer numbers for future events from given histroical event data such as event location, time etc. </b></p>
+      <p>&nbsp;&nbsp;&nbsp;From the set of predictor variables we would like to predict set of response variables. <br/>&nbsp;&nbsp;&nbsp;Reasonable solution to tackle this problem is to build a multivariate regression model from training event data that can predict response variables from set of testing event data. <br/>&nbsp;&nbsp;&nbsp;Partial least square (PLS) is a popular choice as it learns the latent variables utilizing the relationship between predictor and response variables in the training dataset.</p> 
+
+      <p>&nbsp;&nbsp;&nbsp;We particularly utilized <a href="https://en.wikipedia.org/wiki/Non-linear_iterative_partial_least_squares">NIPALS algorithm</a> which is a kind of PLS technique.</p>
       <li><h3>Face Recognition</h3></li>
-      <p><b>&nbsp;&nbsp;&nbsp;Given an new image, it is to find out the top 5-similar images' similarity to the new image from the stored set of historical images of the volunteer members.</b></p>
+      <p><b>&nbsp;&nbsp;&nbsp;Given an new image, it is to find out the top 3-similar images' similarity to the new image from the stored set of historical images of the volunteer members.</b></p>
+      <p>&nbsp;&nbsp;&nbsp;<b>Training phase:</b><br/>
+      &nbsp;&nbsp;&nbsp;1. Make the dimension of set of training images equal.<br/>
+      &nbsp;&nbsp;&nbsp;2. Extract features using HOG feature extraction technique.<br/>
+      &nbsp;&nbsp;&nbsp;3. Reduce feature matrix using PCA.<br/>
+      &nbsp;&nbsp;&nbsp;4. Find clusters from reduced set of feature matrix using Kmeans algorithm.</p>
+
+      <p>&nbsp;&nbsp;&nbsp;<b>Testing phase:</b><br/>
+      &nbsp;&nbsp;&nbsp;1. Make the dimension of the image similar to the dimension of training images.<br/>
+      &nbsp;&nbsp;&nbsp;2. Extract features using HOG feature extraction technique.<br/>
+      &nbsp;&nbsp;&nbsp;3. Reduce feature vector using PCA.<br/>
+      &nbsp;&nbsp;&nbsp;4. Find the most similar cluster that the testing image might belong to.<br/>
+      &nbsp;&nbsp;&nbsp;5. Retrieve top 3 similar images to the testing image from the cluster.</p>
       </div>
     </div>
       <A NAME="predict">
