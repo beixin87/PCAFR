@@ -1,5 +1,4 @@
-# SplunkHW
-Splunk Vancouver Hack Week
+# PCA Face Recognition
 
 Fit: Based on the following predictor variables we fit the PLS model.
 eventType, volunteerCertification, totalNumber, eventLocation, volunteerBonus, volunteerScore, satisfy
