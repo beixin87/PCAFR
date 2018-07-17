@@ -3,8 +3,9 @@
 Fit: 
   By modified the predictor variables eventType, volunteerCertification, totalNumber, eventLocation, volunteerBonus and volunteerScore, the PLS model now determines the latent variables that are subsets of set of the predictor variables.
 
-Apply: We apply the multivariate regression model to predict following response variables.
-eventBudget, volunteerNumber 
+Apply: 
+  The multivariate regression model is applied to predict the response variables eventBudget and volunteerNumber.
+
 
 
 Algorithm Description:
