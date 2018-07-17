@@ -1,8 +1,6 @@
 # PCA Face Recognition
 
-Fit: Based on the following predictor variables we fit the PLS model.
-eventType, volunteerCertification, totalNumber, eventLocation, volunteerBonus, volunteerScore, satisfy
-Note: Latent variables that are subset of set of predictor variables are determined by PLS.
+Fit: Based on the predictor variables eventType, volunteerCertification, totalNumber, eventLocation, volunteerBonus, volunteerScore, we fit the PLS model and satisfy the note: Latent variables that are subsets of the set of predictor variables determined by the PLS model.
 
 Apply: We apply the multivariate regression model to predict following response variables.
 eventBudget, volunteerNumber 
