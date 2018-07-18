@@ -30,8 +30,9 @@ Testing phase:
 
 
 ### Anaconda ####
-1. First Install Anaconda (it contains Python 2.7.10 and all necessary packages e.g., scikit-learn, numpy, scipy etc.). You may also need to update your PATH to point ~/anaconda/bin
-2. Install package PIL in your Anaconda directory
-3. Update scikit-learn to 0.17 version
-4. Replace "import imread" with "import scipy.misc as msc"
-5. Replace "imread(image/src)" with "msc.imread(image/src)"
+1.	Install Anaconda which contains Python 2.7.10 and all necessary packages, such as scikit-learn, numpy, and scipy. Update the PATH to “~/anaconda/bin”.
+2.	Install package PIL in the Anaconda directory
+3.	Update Scikit-learn to 0.17 version
+4.	Replace "import imread" with "import scipy.misc as msc"
+5.	Replace "imread(image/src)" with "msc.imread(image/src)"
+
