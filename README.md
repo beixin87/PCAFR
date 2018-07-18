@@ -1,18 +1,19 @@
 # PCA Face Recognition
 
 Fit: 
+
   By modified the predictor variables eventType, volunteerCertification, totalNumber, eventLocation, volunteerBonus and volunteerScore, the PLS model now determines the latent variables that are subsets of set of the predictor variables.
 
 Apply: 
-  The multivariate regression model is applied to predict the response variables eventBudget and volunteerNumber.
 
+  The multivariate regression model is applied to predict the response variables eventBudget and volunteerNumber.
 
 
 Algorithm Description:
 
 Event Prediction:
-  A multivariate regression model from training event data is built to predict response variables from the set of the predictor variables of testing event data. Partial least square (PLS) is a popular choice as it learns the latent variables utilizing the relationship between predictor and response variables in the training dataset. We particularly utilized NIPALS algorithm  (https://en.wikipedia.org/wiki/Non-linear_iterative_partial_least_squares) which is a kind of PLS technique.  
-
+  A multivariate regression model from training event data is built to predict response variables from the set of the predictor variables of testing event data. Partial least square (PLS) is used as the model, because PLS learns the latent variables by utilizing the relationship between predictor and response variables in the training dataset. NIPALS algorithm, a PLS technique (referred from https://en.wikipedia.org/wiki/Non-linear_iterative_partial_least_squares), is utilized.
+  
 Face Recognition:
  
 Training phase:
