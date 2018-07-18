@@ -9,16 +9,18 @@ Apply:
 
 
 Algorithm Description:
-Event Prediction:
 
-A multivariate regression model from training event data is built to predict response variables from the set of the predictor variables of testing event data. Partial least square (PLS) is a popular choice as it learns the latent variables utilizing the relationship between predictor and response variables in the training dataset. We particularly utilized NIPALS algorithm  (https://en.wikipedia.org/wiki/Non-linear_iterative_partial_least_squares) which is a kind of PLS technique.  
+Event Prediction:
+  A multivariate regression model from training event data is built to predict response variables from the set of the predictor variables of testing event data. Partial least square (PLS) is a popular choice as it learns the latent variables utilizing the relationship between predictor and response variables in the training dataset. We particularly utilized NIPALS algorithm  (https://en.wikipedia.org/wiki/Non-linear_iterative_partial_least_squares) which is a kind of PLS technique.  
 
 Face Recognition:
-Training phase: 
-1. Make the dimension of set of training images equal.
-2. Extract features using HOG feature extraction technique.
-3. Reduce feature matrix using PCA.
-4. Find clusters from reduced set of feature matrix using K-means algorithm.
+ 
+Training phase:
+1.	The dimension of training images sets is set to be equal.
+2.	Extract features using HOG feature extraction.
+3.	Reduce feature matrices using PCA.
+4.	Find clusters from reduced feature matrices using K-means algorithm.
+
 
 Testing phase:
 1. Make the dimension of the image similar to the dimension of training images.
