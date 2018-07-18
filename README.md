@@ -22,11 +22,12 @@ Training phase:
 4.	Find clusters from the reduced feature matrices from step 3 by K-means algorithm.
 
 Testing phase:
-1. Make the dimension of the image similar to the dimension of training images.
-2. Extract features using HOG feature extraction technique.
-3. Reduce feature matrix using PCA.
-4. Find the most similar cluster that the testing image might belong to.
-5. Retrieve top 3 similar images to the testing image from the cluster.
+1.	The dimension of the images is set to be similar to the dimension of training images.
+2.	Extract features matrices of training images by HOG (Histogram of oriented gradients) feature extraction.
+3.	Reduce the dimensionality of the feature matrices by PCA (Principal component analysis).
+4.	Find the clusters with the highest probability that the testing image might belong to.
+5.	From the cluster, retrieve top 3 images that are similar to the testing image.
+
 
 ### Anaconda ####
 1. First Install Anaconda (it contains Python 2.7.10 and all necessary packages e.g., scikit-learn, numpy, scipy etc.). You may also need to update your PATH to point ~/anaconda/bin
