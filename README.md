@@ -16,11 +16,10 @@ Event Prediction:
 Face Recognition:
  
 Training phase:
-1.	The dimension of training images sets is set to be equal.
-2.	Extract features using HOG feature extraction.
-3.	Reduce feature matrices using PCA.
-4.	Find clusters from reduced feature matrices using K-means algorithm.
-
+1.	The dimensionality of training images is set to be equal.
+2.	Extract features matrices of training images by HOG (Histogram of oriented gradients) feature extraction.
+3.	Reduce the dimensionality of the feature matrices by PCA (Principal component analysis).
+4.	Find clusters from the reduced feature matrices from step 3 by K-means algorithm.
 
 Testing phase:
 1. Make the dimension of the image similar to the dimension of training images.
